@@ -19,7 +19,7 @@
  (name aoc_2023)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune base stdio ppx_inline_test)
+ (depends ocaml dune core stdio ppx_inline_test)
  (tags
   (topics "to describe" your project)))
 

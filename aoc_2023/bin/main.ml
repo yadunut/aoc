@@ -14,6 +14,7 @@ let () =
   let () = Arg.parse [] anon_fun usage_msg in
   let (part1, part2) = match !day with 
     | 1 -> Aoc_2023.Day_01.(part1, part2)
+    | 2 -> Aoc_2023.Day_02.(part1, part2)
     | _ -> raise (Invalid_argument "Aoc Day is not specified")
   in 
   let input_text = read_whole_input_file ("input/day" ^ string_of_int !day) in

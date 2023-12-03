@@ -1,9 +1,21 @@
-open Base
+open! Core
 
-let is_alpha = function 'a'..'z' | 'A'..'Z' -> true | _ -> false
 let is_digit = function '0'..'9' -> true | _ -> false
-
 let join_characters a b = String.make 1 a ^ String.make 1 b
+
+let solve_part1 (str: string): (int) = 
+str 
+  |> String.filter ~f:is_digit
+  |> function 
+  | "" -> 0
+  | x -> Int.of_string (join_characters x.[0] x.[(String.length x)-1])
+
+let part1 (input_text: string): (string) = 
+  input_text 
+  |> String.split_lines
+  |> List.map ~f:solve_part1 
+  |> List.fold ~f:(fun acc n -> acc + n) ~init:0
+  |> Int.to_string
 
 
 let numbers = [
@@ -27,14 +39,6 @@ let numbers = [
   ("9", 9);
 ]
 
-let solve_part1 (str: string): (int) = 
-str 
-  |> String.filter ~f:is_digit
-  |> function 
-  | "" -> 0
-  | x -> Int.of_string (join_characters x.[0] x.[(String.length x)-1])
-  
-  
 let str_begins_with (str: string) = 
   numbers
   |> List.filter ~f:(fun (num, _) -> String.is_prefix str ~prefix:num)
@@ -64,21 +68,6 @@ let solve_part2 (s: string) =
   first_num * 10 + last_num
 
 
-
-let%test "str_begins_with" = Option.equal Int.equal (str_begins_with "1twothree") (Option.some 1)
-let%test "str_ends_with" = Option.equal Int.equal (str_ends_with "threetwo") (Option.some 2)
-let%test "first_num" = Int.equal (first_num "aaaaaaaeight6twojtzlvlhgjncvx") 8
-let%test "first_num" = Int.equal (first_num "eight6twojtzlvlhgjncvx") 8
-let%test "last_num" = Int.equal (last_num "eight6twojtzlvlhgjncvx") 2
-let%test "solve_part2" = Int.equal (solve_part2 "two1nine") 29
-
-let part1 (input_text: string): (string) = 
-  input_text 
-  |> String.split_lines
-  |> List.map ~f:solve_part1 
-  |> List.fold ~f:(fun acc n -> acc + n) ~init:0
-  |> Int.to_string
-
 let part2 (input_text: string): (string) = 
   input_text
   |> String.split_lines
@@ -86,3 +75,9 @@ let part2 (input_text: string): (string) =
   |> List.fold ~f:(fun acc n -> acc + n) ~init:0
   |> Int.to_string
 
+let%test "str_begins_with" = Option.equal Int.equal (str_begins_with "1twothree") (Option.some 1)
+let%test "str_ends_with" = Option.equal Int.equal (str_ends_with "threetwo") (Option.some 2)
+let%test "first_num" = Int.equal (first_num "aaaaaaaeight6twojtzlvlhgjncvx") 8
+let%test "first_num" = Int.equal (first_num "eight6twojtzlvlhgjncvx") 8
+let%test "last_num" = Int.equal (last_num "eight6twojtzlvlhgjncvx") 2
+let%test "solve_part2" = Int.equal (solve_part2 "two1nine") 29
